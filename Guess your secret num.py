@@ -12,12 +12,11 @@ while True:
     elif ina == 'l':
         low = guess
     elif ina == 'c':
-        break 
+        break
     else:
         print("Sorry, I did not understand your input.")
-    guess = (high + low )/2 #set the guess
+    guess = (high + low )/2
 print("Game over. Your secret number was: " + str(guess))
         
     
     
-# This is a small game,maybe boring somewhat.
