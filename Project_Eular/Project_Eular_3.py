@@ -6,7 +6,7 @@ def find_prime_factor(a):
                 while True:
                         if a % point == 0:
                                 analysis(point)
-                                return find_prime_factor(a/point)
+                                return find_prime_factor(a/point)#do with smaller one
                         else:
                                 point += 1
         else:
@@ -15,7 +15,7 @@ def find_prime_factor(a):
 
 
 
-def analysis(n):
+def analysis(n):#append n in dict or plus 
         if n in factor_dict:
                 factor_dict[n] += 1
         else:
