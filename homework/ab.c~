@@ -1,0 +1,3 @@
+#include <stdio.h>
+int main(void){
+	int num,a,b,i,j;
