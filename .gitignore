@@ -38,3 +38,5 @@ Icon
 gVim 7.4.lnk
 *.py~
 *.txt
+*.exe
+*.c~
