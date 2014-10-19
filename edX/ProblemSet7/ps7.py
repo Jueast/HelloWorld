@@ -46,7 +46,7 @@ def process(url):
 
 # Problem 1
 
-class Newstory(object):
+class NewsStory(object):
 	def __init__(self,guid,title,subject,summary,link):
 		self.guid = guid
 		self.title = title
@@ -77,27 +77,34 @@ class Trigger(object):
         raise NotImplementedError
 
 # Whole Word Triggers
+
 # Problems 2-5
 
 # TODO: WordTrigger
+class WordTrigger(Trigger):
+	def __init__(self,word):
+		self.word = word.lower()
+	def isWordIn(self,text):
+			text = text.lower()
+			textlist = text.split(' ')
+			newtextlist =[]
+			for word in textlist:
+				for letter in string.punctuation:
+					word = word.replace(letter,'')
+				newtextlist.append(word)
+			return (self.word in newtextlist)													
 
-# TODO: TitleTrigger
-# TODO: SubjectTrigger
+class TitleTrigger(WordTrigger):
+	def evaluate(self,story):
+		return self.isWordIn(story.getTitle())
+
+class SubjectTrigger(WordTrigger):
+	def evaluate(self,story):
+		return self.isWordIn(story.getSubject())
 # TODO: SummaryTrigger
-
-
-# Composite Triggers
-# Problems 6-8
-
-# TODO: NotTrigger
-# TODO: AndTrigger
-# TODO: OrTrigger
-
-
-# Phrase Trigger
-# Question 9
-
-# TODO: PhraseTrigger
+class SummaryTrigger(WordTrigger):
+	def evaluate(self,story):
+		return self.isWordIn(story.getSummary())
 
 
 #======================
