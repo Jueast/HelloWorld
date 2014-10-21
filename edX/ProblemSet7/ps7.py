@@ -101,11 +101,36 @@ class TitleTrigger(WordTrigger):
 class SubjectTrigger(WordTrigger):
 	def evaluate(self,story):
 		return self.isWordIn(story.getSubject())
-# TODO: SummaryTrigger
+
 class SummaryTrigger(WordTrigger):
 	def evaluate(self,story):
 		return self.isWordIn(story.getSummary())
 
+class NotTrigger(Trigger):
+	def __init__(self,trigger_1):
+		self.trigger_1 = trigger_1
+	def evaluate(self,word):
+		return not self.trigger_1.evaluate(word) 
+
+class AndTrigger(Trigger):
+	def __init__(self,trigger_1,trigger_2):
+		self.trigger_1 = trigger_1
+		self.trigger_2 = trigger_2
+	def evaluate(self,word):
+		return self.trigger_1.evaluate(word) and self.trigger_2.evaluate(word)
+
+class OrTrigger(Trigger):
+	def __init__(self,trigger_1,trigger_2):
+		self.trigger_1 = trigger_1
+		self.trigger_2 = trigger_2
+	def evaluate(self,word):
+		return self.trigger_1.evaluate(word) or self.trigger_2.evaluate(word)
+	
+class PhraseTrigger(Trigger):
+	def __init__(self,phrase):
+		self.phrase = phrase
+	def evaluate(self,story):
+		return (self.phrase in story.getTitle()) or(self.phrase in story.getSummary())  or (self.phrase in story.getSubject()) 
 
 #======================
 # Part 3
@@ -119,8 +144,14 @@ def filterStories(stories, triggerlist):
     Returns: a list of only the stories for which a trigger in triggerlist fires.
     """
     # TODO: Problem 10
-    # This is a placeholder (we're just returning all the stories, with no filtering) 
-    return stories
+    newstories = []
+    for story in stories:
+    	for trigger in triggerlist:
+    		if (trigger.evaluate(story)) or (trigger.evaluate(story)) or (trigger.evaluate(story)) :
+    			if not story in newstories:
+    				newstories.append(story)
+
+    return newstories
 
 #======================
 # Part 4
@@ -143,8 +174,22 @@ def makeTrigger(triggerMap, triggerType, params, name):
     Returns a new instance of a trigger (ex: TitleTrigger, AndTrigger).
     """
     # TODO: Problem 11
-
-
+    if triggerType == "TITLE":
+        newtrigger = TitleTrigger(params[0])
+    if triggerType == "SUBJECT":
+        newtrigger = SubjectTrigger(params[0])
+    if triggerType == "SUMMARY":
+        newtrigger = SummaryTrigger(params[0])
+    if triggerType == "AND":
+        newtrigger =  AndTrigger(triggerMap[params[0]],triggerMap[params[1]])
+    if triggerType == "OR":
+        newtrigger =  OrTrigger(triggerMap[params[0]],triggerMap[params[1]])
+    if triggerType == "NOT":
+        newtrigger =  NotTrigger(triggerMap[params[0]])
+    if triggerType == "PHRASE":
+        newtrigger = PhraseTrigger(' '.join(params))
+    triggerMap[name] = newtrigger
+    return newtrigger
 def readTriggerConfig(filename):
     """
     Returns a list of trigger objects
@@ -202,7 +247,7 @@ def main_thread(master):
         
         # TODO: Problem 11
         # After implementing makeTrigger, uncomment the line below:
-        # triggerlist = readTriggerConfig("triggers.txt")
+        triggerlist = readTriggerConfig("triggers.txt")
 
         # **** from here down is about drawing ****
         frame = Frame(master)
