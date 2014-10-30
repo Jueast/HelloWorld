@@ -10,7 +10,7 @@ int main(void){
 			n++;
 		else
 			break;
-}
+}    // the array isn't necessary.
 	temp = 0;
 	for(i=0;i<=n;i++){
 		temp = temp*10 + a[i];
