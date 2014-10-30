@@ -17,7 +17,7 @@ int main(void){
 	num[0] = atoi();
 	//printf("%d,%d\n",i,num[0]);
 	for(j=0,k=0;;){
-		switch(s[i]){
+		switch(s[i]){//caculator save as a series num to add up
 		case '*':{
             i++;
 			num[j] *= atoi();
@@ -40,12 +40,12 @@ int main(void){
 			break;}
 		}
 		//printf("%d:%c\n",i,s[i]);
-		if (s[i] == '=')
+		if (s[i] == '=')//end the loop
 			break;	
 		
 	}
 	result = 0;
-	for(i=0;i<=j;i++){
+	for(i=0;i<=j;i++){//print
 		result += num[i];
     }
 	printf("%d\n",result);
