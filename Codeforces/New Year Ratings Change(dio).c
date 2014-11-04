@@ -32,12 +32,11 @@ int main(void){
 int flagcmp(const void *a, const void *b ){
     return(s[*(long int*)a] - s[*(long int*)b]);
 }
-/* void qsort(int l,int h){// not to  change the array  but the number.
+/* void qsort(int l,int h){// quick sort the flags referring to numbers.
      long int i=l,j=h;
      long  int pivot,temp;
      if(l<h){
              pivot = flags[i];
-             //printf("%ld\n",pivot);
              while(i<j){
                 while(i<j && s[pivot]<=s[flags[j]])
                           j--;
@@ -53,7 +52,6 @@ int flagcmp(const void *a, const void *b ){
                        }
                        }
              flags[i] = pivot ;
-             //printf("%ld , %ld\n",temp,i);
              qsort(l,i-1);
              qsort(i+1,h);
              }
