@@ -14,8 +14,8 @@ int main(void){
 	num[i] = '\0';
 	scanf("%d",&N);
 	for(newn[0] = num[0];;){
-		while(newn[j] > num[pointer] && j > -1){//delete all numbers bigger than pointer number.
-			j--;
+		while(newn[j] > num[pointer] && j > -1){//delete all numbers bigger than pointer number.if it's end the \0 is small than any char 
+			j--;                                //the will go to forward to delete the last c number (c is rest k.)
 			k++;
 			if (k >= N) 
 			   goto here;//if delete N numbuers stop and output.
