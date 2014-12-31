@@ -52,22 +52,33 @@ class Cluster(object):
         are closest to each other, where one point is from 
         self and the other point is from other. Uses the 
         Euclidean dist between 2 points, defined in Point."""
-        # TO DO
-        pass
+        minDis = self.points[0].distance(other.points[0])
+        for px in self.points:
+            for py in other.points:
+                minDis = min(minDis,px.distance(py))
+        return minDis
     def maxLinkageDist(self, other):
         """ Returns the float distance between the points that 
         are farthest from each other, where one point is from 
         self and the other point is from other. Uses the 
         Euclidean dist between 2 points, defined in Point."""
-        # TO DO
-        pass
+        maxDis = self.points[0].distance(other.points[0])
+        for px in self.points:
+            for py in other.points:
+                maxDis = max(maxDis,px.distance(py))
+        return maxDis
     def averageLinkageDist(self, other):
         """ Returns the float average (mean) distance between all 
         pairs of points, where one point is from self and the 
         other point is from other. Uses the Euclidean dist 
         between 2 points, defined in Point."""
-        # TO DO
-        pass
+        temp = 0
+        counter = 0
+        for px in self.points:
+            for py in other.points:
+                 temp += px.distance(py)
+                 counter += 1
+        return temp/float(counter)
     def members(self):
         for p in self.points:
             yield p
@@ -115,20 +126,37 @@ class ClusterSet(object):
         """ Assumes clusters c1 and c2 are in self
         Adds to self a cluster containing the union of c1 and c2
         and removes c1 and c2 from self """
-        # TO DO
-        pass
+        new = Cluster([],c1.pointType) 
+        for p in c1.points:
+            new.points.append(p)
+        for p in c2.points:
+            new.points.append(p)
+        temp = []
+        for i in range(len(self.members)):
+            if self.members[i] != c1 and self.members[i] != c2:
+                temp.append(self.members[i])
+        self.members = temp
+        self.members.append(new)
     def findClosest(self, linkage):
         """ Returns a tuple containing the two most similar 
         clusters in self
         Closest defined using the metric linkage """
-        # TO DO
-        pass
+        pair = (self.members[0],self.members[1])
+        minDis = linkage(self.members[1],self.members[0])
+        for c1 in self.members:
+            for c2 in self.members:
+                if c2 != c1:
+                    if linkage(c2,c1) < minDis:
+                        pair = (c1,c2)
+                        minDis = linkage(c2,c1)
+        return pair
     def mergeOne(self, linkage):
         """ Merges the two most simililar clusters in self
         Similar defined using the metric linkage
         Returns the clusters that were merged """
-        # TO DO
-        pass
+        temp = self.findClosest(linkage)
+        self.mergeClusters(temp[1], temp[0])
+        return temp
     def numClusters(self):
         return len(self.members)
     def toStr(self):
@@ -219,13 +247,14 @@ def hCluster(points, linkage, numClusters, printHistory):
     return cS
 
 def test():
-    points = buildCityPoints('cityTemps.txt', False)
-    hCluster(points, Cluster.singleLinkageDist, 10, False)
-    #points = buildCityPoints('cityTemps.txt', True)
+    points = buildCityPoints('D:\Documents\GitHub\HelloWorld\edX\ProblemSet6\cityTemps.txt', False)
+    #hCluster(points, Cluster.singleLinkageDist, 10, False)
+    #points = buildCityPoints('D:\Documents\GitHub\HelloWorld\edX\ProblemSet6\cityTemps.txt', True)
     #hCluster(points, Cluster.maxLinkageDist, 10, False)
     #hCluster(points, Cluster.averageLinkageDist, 10, False)
-    #hCluster(points, Cluster.singleLinkageDist, 10, False)
+    hCluster(points, Cluster.singleLinkageDist, 5, False)
+    hCluster(points, Cluster.singleLinkageDist, 5, True)
 
-#test()
+test()
 
 
