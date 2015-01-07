@@ -18,6 +18,7 @@ int main(void){
 			cur = cur->next;
 		}
 		cur->next = ((cur->next) -> next);
+		free(temp);
 		cur = cur->next;
 	}
 	printf("%d",cur->mark);
