@@ -13,12 +13,12 @@ int main(void){
 	char s[SIZE];
 	int i,j;
 	gets(s);
-	for(i = 0;i<250;i++){
+	for(i = 0;i<250;i++){//initialise the date 
 		list[i].index = -1;
 		list[i].fre = 0;
 		list[i].c = (char)i;
 	}
-	for(i=0;i<strlen(s);i++){
+	for(i=0;i<strlen(s);i++){//read the string
 		if (list[s[i]].index == -1)
 			list[s[i]].index = i;
 		list[s[i]].fre += 1;

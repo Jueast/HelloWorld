@@ -40,21 +40,21 @@ def load_map(mapFilename):
     line = infile.readline()
     used = []
     while line:
-    	t = line.split(' ')
-    	src = Node(t[0])
-    	dest = Node(t[1])
-    	edge = WeightedEdge(src,dest,int(t[2]),int(t[3]))
-    	if src not in used:
-    	   mitmap.addNode(src)
-    	if dest not in used:
-    	   mitmap.addNode(dest)
-    	mitmap.addEdge(edge)
-    	used.append(src)
-    	used.append(dest)
-    	line = infile.readline()
-    print "Loading map from file..."
+        t = line.split(' ')
+        src = Node(t[0])
+        dest = Node(t[1])
+        edge =   WeightedEdge(src,dest,int(t[2]),int(t[3]))
+        if src not in used:
+            mitmap.addNode(src)
+        if dest not in used:
+            mitmap.addNode(dest)
+        mitmap.addEdge(edge)
+        used.append(src)
+        used.append(dest)
+        line = infile.readline()
+    print ("Loading map from file...")
     return mitmap
-        
+
 
 #
 # Problem 3: Finding the Shortest Path using Brute Force Search
@@ -104,42 +104,42 @@ def bruteForceSearch(digraph, start, end, maxTotalDist, maxDistOutdoors):
     return result
     
 def DFS(digraph,start,end,maxT,maxO,path = [],shortest = None):
-	path = path + [start]
-	if  start == end and theTotal(digraph,path) <= maxT and theOutdoor(digraph,path) <= maxO:
-		return path
-	for node in digraph.childrenOf(start):
-		if node not in path:
-			if shortest == None or theTotal(digraph,path) < theTotal(digraph,shortest):
-				newPath = DFS(digraph,node,end,maxT,maxO,path,shortest)
-				if newPath != None and (shortest == None or theTotal(digraph,newPath) < theTotal(digraph,shortest)):
-					shortest = newPath
-	return shortest
+    path = path + [start]
+    if  start == end and theTotal(digraph,path) <= maxT and theOutdoor(digraph,path) <= maxO:
+        return path
+    for node in digraph.childrenOf(start):
+        if node not in path:
+            if shortest == None or theTotal(digraph,path) < theTotal(digraph,shortest):
+                newPath = DFS(digraph,node,end,maxT,maxO,path,shortest)
+                if newPath != None and (shortest == None or theTotal(digraph,newPath) < theTotal(digraph,shortest)):
+                    shortest = newPath
+    return shortest
 
 def theTotal(digraph,path):
-    	cost = 0
-    	src = path[0]
-    	for node in path:
-    		if (src == node):
-    			continue; 
-    		for l in digraph.edges[src]:
-    			if l[0] == node:
-    				cost += float(l[1][0])
-    				src = node
-    				break
-    	return cost
+    cost = 0
+    src = path[0]
+    for node in path:
+        if (src == node):
+            continue; 
+        for l in digraph.edges[src]:
+            if l[0] == node:
+                cost += float(l[1][0])
+                src = node
+                break
+    return cost
 
 def theOutdoor(digraph,path):
-    	cost = 0
-    	src = path[0]
-    	for node in path:
-    		if (src == node):
-    			continue; 
-    		for l in digraph.edges[src]:
-    			if l[0] == node:
-    				cost += float(l[1][1])
-    				src = node
-    				break
-    	return cost
+        cost = 0
+        src = path[0]
+        for node in path:
+            if (src == node):
+                continue; 
+            for l in digraph.edges[src]:
+                if l[0] == node:
+                    cost += float(l[1][1])
+                    src = node
+                    break
+        return cost
 
 
 #
@@ -186,14 +186,14 @@ if __name__ == '__main__':
 LARGE_DIST = 1000000
 
 #     Test case 1
-print "---------------"
-print "Test case 1:"
-print "Find the shortest-path from Building 32 to 56"
+print ("---------------")
+print ("Test case 1:")
+print ("Find the shortest-path from Building 32 to 56")
 expectedPath1 = ['32', '56']
 brutePath1 = bruteForceSearch(mitMap, '32', '56', LARGE_DIST, LARGE_DIST)
 #     dfsPath1 = directedDFS(mitMap, '32', '56', LARGE_DIST, LARGE_DIST)
-print "Expected: ", expectedPath1 
-print "Brute-force: ", brutePath1
+print ("Expected: ", expectedPath1) 
+print "Brute-force: ", brutePath1)
 #     print "DFS: ", dfsPath1
 #     print "Correct? BFS: {0}; DFS: {1}".format(expectedPath1 == brutePath1, expectedPath1 == dfsPath1)
 
